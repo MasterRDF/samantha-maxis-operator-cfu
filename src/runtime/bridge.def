@@ -1,0 +1,5 @@
+LIBRARY XINPUT9_1_0
+EXPORTS
+    XInputGetCapabilities @1
+    XInputGetState @2
+    XInputSetState @3

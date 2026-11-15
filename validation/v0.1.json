@@ -1,0 +1,26 @@
+{
+  "release": "Samantha Maxis Operator (CFU) v0.1",
+  "date": "2026-11-15",
+  "target": "bo7-cod25-cl29269900",
+  "language": "english",
+  "previewAndLocalZombiesAccepted": true,
+  "combinedGameplayUserAccepted": true,
+  "enabledDuringTest": [
+    "Carry Forward Unleashed",
+    "Ztron Guns",
+    "Carry-forward",
+    "BO6 Operators"
+  ],
+  "nativeSharedRequestLoaded": true,
+  "nativeSharedPublicationsObserved": 2,
+  "stockCallbackChecks": 59,
+  "cfuCallbackIntegrationChecks": 272,
+  "passiveSharingChecks": 117,
+  "releaseRuntimeSha256": "eed21d3c332b029b685edd2ac18a8c0f6a0b1ef2f6a370b7c57105b462c7fe80",
+  "testedManifestSha256": "1fea24cf82405925daee0c23d40d7e56385d5eeb6a5949264277e7c80eadfc0c",
+  "releaseManifestSha256": "4755593dc444e1eee211ef5341e74473c939554c73757efec44e61965872cc32",
+  "releaseMetadataOnlyPromotion": true,
+  "allFastfilesAndRuntimeExactTestedBuild": true,
+  "publicSourceBuildVerified": true,
+  "validationBasis": "Manual user gameplay confirmation plus native runtime logs; automatic GPU residency proof is not claimed."
+}

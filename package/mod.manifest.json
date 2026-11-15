@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "runtimeMinimumVersion": "0.1",
+  "name": "samantha_maxis_operator_cfu",
+  "target": "bo7-cod25-cl29269900",
+  "language": "english",
+  "gameSha256": "b0b12b0e7ec25ce855ea6e9d042fc8f390b8d48097cb10e0899e8334f35b6db8",
+  "kronosSha256": "88a52103c5555b2760f1e7ad13a594e8ef0440f007b45a10bddc61dda234fcfb",
+  "assetCount": 403,
+  "memoryCapacities": [
+    0,
+    5592512,
+    1504,
+    73360,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    32,
+    0,
+    0,
+    0,
+    5236320
+  ],
+  "files": [
+    {
+      "name": "samantha_maxis_operator_cfu.ff",
+      "sha256": "c8284f0f8522e4ba18bc44847edc66873a7cca0648e204ee892c1334822ad378",
+      "bytes": 102978676,
+      "streamHeaderSha256": "6189cc71f3c24076c30b1bb6a80d1e037e0f40dac3c4686218599dd43b9497a7",
+      "server": false
+    },
+    {
+      "name": "jp_samantha_maxis_operator_cfu.ff",
+      "sha256": "d1570185d998935213df577a1e72913834c6b377b527968017b1f99990f43919",
+      "bytes": 33528,
+      "streamHeaderSha256": "6b5f7fcb62106dd3a2f963de6297b0591f5290aa577b240ea23acb7cd85cc382",
+      "server": false
+    },
+    {
+      "name": "eng_samantha_maxis_operator_cfu.ff",
+      "sha256": "96d60c20fdbdcaf1c322dd22092c70948559de85f91c44bffadc6c56dbd17200",
+      "bytes": 33528,
+      "streamHeaderSha256": "9dffb9950beb87a16bba687edd7dfdd555a4fd0828ea87f42b24feb0284bd2ed",
+      "server": false
+    },
+    {
+      "name": "ww_samantha_maxis_operator_cfu.ff",
+      "sha256": "2a6a0e6e8a93f0bd1eec77375dcf18811a311e36d6d23212b67f34655da17ff1",
+      "bytes": 33528,
+      "streamHeaderSha256": "66d549133d6cf54c4adc80c0009bb906194697566be140e0f77c8c674ac91c1d",
+      "server": false
+    },
+    {
+      "name": "srv_samantha_maxis_operator_cfu.ff",
+      "sha256": "1892e4baea0139b1e0dc40d2f8e9adac3004c9bc16386648baa81e687c068cdd",
+      "bytes": 33528,
+      "streamHeaderSha256": "2dd3f3f91867927fcecc613c069c694928a3d668b413f3fa51b54e4e657e14c9",
+      "server": true
+    }
+  ],
+  "scripts": [],
+  "displayName": "Samantha Maxis Operator (CFU) v0.1",
+  "version": "0.1",
+  "release": {
+    "replacement": "Karma -> Tacit",
+    "appearance": "Samantha Maxis default outfit",
+    "includes": [
+      "third-person body",
+      "both head variants",
+      "first-person arms",
+      "native skin shading",
+      "brightened sclera"
+    ],
+    "visualGameplayValidated": true,
+    "combinedCfuZtronValidated": true,
+    "facialAnimationRetargeted": false,
+    "retainsKarmaIdentityAndVoice": true,
+    "passiveCarryForwardSharing": true,
+    "bo6OperatorsEnabledValidated": true
+  },
+  "carryForwardPreload": true
+}

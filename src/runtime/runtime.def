@@ -1,0 +1,4 @@
+LIBRARY "bo7-runtime"
+EXPORTS
+    Bo7RuntimeStart @1
+    Bo7RuntimeAttach @2

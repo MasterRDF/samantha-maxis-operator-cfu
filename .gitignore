@@ -1,0 +1,10 @@
+/dist/
+/.state/
+/build/
+/package/*.ff
+*.obj
+*.exp
+*.lib
+*.pdb
+__pycache__/
+

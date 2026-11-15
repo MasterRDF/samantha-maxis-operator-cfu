@@ -1,0 +1,37 @@
+# Compatibility
+
+| Component | Target | Evidence |
+| --- | --- | --- |
+| BO7 | cod25 CL29269900, English | Preview and local Zombies appearance accepted |
+| Kronos | Stable v1.41 | Exact original DLL hash required |
+| CFU | 1.5.4 stable renames trial 02 | 272 offline callback integration checks; combined gameplay accepted |
+| Ztron Guns | 88c | Loaded alongside Maxis and CFU; combined gameplay accepted |
+
+## Native callback conflict
+
+CFU's operator companion changes six bytes at Kronos RVA `0xb8595` to enter a targeted stale-string guard. The earlier Maxis diagnostic runtime required the stock callback tail, so CFU would cause a profile refusal before Maxis loaded.
+
+The release runtime accepts either the existing stock profile or a separate CFU profile. CFU acceptance requires the correctly located, loaded operator companion with SHA256 `3d692ab79d38bd3b69979bdc2a0a2a0d6c5bf51ecc4353ad5f93f179999f8957`, the unchanged callback entry/initializer and tail suffix, all 247 guard bytes, and all four expected relocated destinations. Unexpected changes are refused. The guard and operator tables are not modified; the error observer forwards the original callback arguments, return value and Windows error state.
+
+The offline fixture maps a copy of the original Kronos file without executing it, applies CFU's actual stable patch implementation, reproduces the old profile failure, and verifies the new profile. Every single-byte guard mutation and selected callback changes are refused. The fixture also verifies error forwarding and that only the existing callback cell changes when its observer is installed. No BO7 process is attached by these tests.
+
+## Pinned files
+
+BO7 executable: `b0b12b0e7ec25ce855ea6e9d042fc8f390b8d48097cb10e0899e8334f35b6db8`.
+
+Kronos v1.41: `88a52103c5555b2760f1e7ad13a594e8ef0440f007b45a10bddc61dda234fcfb`.
+
+The converted fastfiles remain byte-identical to the accepted full-body visual build. Compatibility changes affect loading and release metadata.
+
+## Live validation procedure
+
+With CFU and Ztron enabled and Carry-forward on, verify Maxis in preview and in a local match; use an MWII/MWIII CFU gun and the Ztron DG-2 or Jet Gun; inspect first-person hands and third-person appearance; return to the lobby and start another match. Record the actual result before marking combined compatibility verified or publishing v0.1.
+
+
+## Carry-forward package-slot conflict
+
+Kronos reserves request 4 and its name cell for `global_stream_cfwd_mp`. The isolated Maxis loader also used that slot while Carry-forward was off. The first combined run correctly refused the occupied slot and displayed native Karma. A bounded read-only capture confirmed request 4's native owner, loaded state and package name.
+
+The shared path reuses the earlier local Thompson runtime's passive-sharing implementation. It observes Kronos's natural request publication and supplies a private two-name descriptor containing the existing Carry-forward package followed by Maxis. It preserves the native name-cell pointer, original package and request flags, forwards the original write, refuses busy/unexpected states, and cleans only its own settled idle leftovers. It does not force an active request to unload or reuse an unrelated request slot. Frontend preloading is explicitly enabled in this package's manifest so the appearance can be present before spawning.
+
+All 117 inherited sharing, busy-state, preload, acknowledgement and cleanup checks pass against the adapted runtime headers. The combined gameplay retest passed by user report with both mods, Carry-forward and BO6 Operators enabled. Logs independently confirm the shared package reached native loaded state twice.
