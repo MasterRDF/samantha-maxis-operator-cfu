@@ -80,7 +80,10 @@
     "facialAnimationRetargeted": false,
     "retainsKarmaIdentityAndVoice": true,
     "passiveCarryForwardSharing": true,
-    "bo6OperatorsEnabledValidated": true
+    "bo6OperatorsEnabledValidated": true,
+    "automaticStartup": true,
+    "kronosLibraryToggle": true
   },
-  "carryForwardPreload": true
+  "carryForwardPreload": true,
+  "distribution": "drag-and-drop"
 }

@@ -1,7 +1,9 @@
-Samantha Maxis's default Warzone 1 outfit, adapted to BO7 local Zombies. Select **Karma → Tacit** for the full body, head and first-person arms, with corrected skin shading and brighter eye whites.
+**Drag-and-drop edition:** no installer, manual Attach step or .NET runtime required.
 
-Validated by user gameplay on the pinned English BO7/Kronos v1.41 build with **CFU, Ztron Guns, Carry-forward and BO6 Operators enabled**. The runtime loads Maxis beside Carry-forward and preserves CFU's operator guard.
+Extract the ZIP and copy **the contents of its `cod25` folder into your `cod25` folder**. Merge `kronos`, enable **Samantha Maxis Operator (CFU)** in Kronos's Library, and launch normally. Select **Karma -> Tacit** in local Zombies. Fully restart BO7 after changing the Library switch.
 
-Download `Samantha-Maxis-Operator-CFU-v0.1.zip`, extract it, and follow its README. Close BO7/Kronos before `Install.cmd`; launch BO7 yourself and run `Attach.cmd` before entering Zombies. Keep the extracted folder for reversible uninstall. `SHA256SUMS.txt` provides the archive checksum.
+Automatic startup was confirmed by user gameplay with CFU, Ztron, Carry-forward and BO6 Operators enabled. Original model/texture fastfiles and the shared Carry-forward publication behavior are retained. CFU's HID, Ztron's PDH and Kronos's XInput loaders are unchanged.
 
-This is an appearance replacement: Karma's menu identity and voice remain. Facial-expression retargeting, multiplayer and other game/client builds are outside v0.1's validated scope. CFU and Ztron are separate dependencies and are not bundled.
+If you used the earlier installer distribution: uninstall it using its original extracted folder before copying this edition. If another mod already supplies `tbs.dll`, back it up and resolve that loader conflict first. Removal instructions and supported build details are in the included README.
+
+The previous installer download has been replaced. Download the **v0.1 Drag-and-Drop ZIP** below; `SHA256SUMS.txt` contains its checksum.

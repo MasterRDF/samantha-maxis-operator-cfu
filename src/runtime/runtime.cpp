@@ -10,6 +10,7 @@
 #include "ncs-types-probe.hpp"
 #endif
 #include "trusted-fastfiles.hpp"
+#include "dropin-config.hpp"
 #include "runtime-config.hpp"
 #include "minhook/include/MinHook.h"
 #ifdef BO7_CHARACTER_DIAGNOSTIC
@@ -147,10 +148,21 @@ static DWORD WINAPI worker(void*){
     Handle lifetimeLock,activationLock;
     auto note=[](const std::string& text){logLine(text);};
     try{
+#ifdef BO7_DROPIN
+        const auto folder=maxis_dropin::folder(gameRoot)/L"native";fs::create_directories(folder);runtime_status::folder=folder;
+        if(!maxis_dropin::enabled(gameRoot)){runtime_status::set("inactive","Maxis is disabled in the Kronos Library; restart after changing its switch.");return ERROR_SUCCESS;}
+        const auto lockFolder=gameRoot/L"kronos"/L"runtime";fs::create_directories(lockFolder);
+#else
         const auto folder=gameRoot/L"kronos"/L"runtime";fs::create_directories(folder);runtime_status::folder=folder;
-        lifetimeLock.h=CreateFileW((folder/L"runtime.lock").c_str(),GENERIC_READ|GENERIC_WRITE,FILE_SHARE_READ,nullptr,OPEN_ALWAYS,FILE_ATTRIBUTE_NORMAL,nullptr);
-        if(lifetimeLock.h==INVALID_HANDLE_VALUE)return ERROR_SHARING_VIOLATION;
+        const auto lockFolder=folder;
+#endif
+        lifetimeLock.h=CreateFileW((lockFolder/L"runtime.lock").c_str(),GENERIC_READ|GENERIC_WRITE,FILE_SHARE_READ,nullptr,OPEN_ALWAYS,FILE_ATTRIBUTE_NORMAL,nullptr);
+        if(lifetimeLock.h==INVALID_HANDLE_VALUE){runtime_status::set("refused","Another native package runtime is already active. Restart with only one runtime selected.");return ERROR_SHARING_VIOLATION;}
+#ifdef BO7_DROPIN
+        fs::create_directories(gameRoot/L"kronos"/L"Logs");{std::lock_guard lock(logMutex);logFile.open(gameRoot/L"kronos"/L"Logs"/L"maxis-runtime.log",std::ios::trunc);}
+#else
         fs::create_directories(gameRoot/L"kronos"/L"Logs");{std::lock_guard lock(logMutex);logFile.open(gameRoot/L"kronos"/L"Logs"/L"bo7-runtime-loader.log",std::ios::trunc);}
+#endif
         note(std::string("Maxis runtime v0.1 with passive Carry-forward sharing; entry: ")+(attached?"launcher attach (original Kronos XINPUT9_1_0.dll)":"XInput bootstrap")+"; package selection and game language remain manifest-driven.");
         require(sha256(gameRoot/L"cod25-cod.exe")==GameSha,"Unsupported game executable.");
         require(sha256(clientFile)==ClientSha,"Unsupported original Kronos client.");
@@ -158,10 +170,15 @@ static DWORD WINAPI worker(void*){
         std::ifstream language(gameRoot/L"steam_settings"/L"force_language.txt");std::string lang;std::getline(language,lang);lang.erase(std::remove(lang.begin(),lang.end(),'\r'),lang.end());
         while(!lang.empty()&&(lang.back()==' '||lang.back()=='\t'))lang.pop_back();
         require(runtime_config::findLanguage(lang)!=nullptr,"Unsupported game language in steam_settings/force_language.txt: "+lang);
-        if(!fs::exists(folder/L"active-mod.json")){runtime_status::set("inactive","No package is selected.");runtime_status::keepAlive();}
-        activationLock.h=CreateFileW((folder/L"active-mod.json").c_str(),GENERIC_READ,FILE_SHARE_READ,nullptr,OPEN_EXISTING,FILE_ATTRIBUTE_NORMAL,nullptr);
+#ifdef BO7_DROPIN
+        const auto selection=folder/L"dropin.json";
+#else
+        const auto selection=folder/L"active-mod.json";
+#endif
+        if(!fs::exists(selection)){runtime_status::set("inactive","No package is selected.");runtime_status::keepAlive();}
+        activationLock.h=CreateFileW(selection.c_str(),GENERIC_READ,FILE_SHARE_READ,nullptr,OPEN_EXISTING,FILE_ATTRIBUTE_NORMAL,nullptr);
         require(activationLock.h!=INVALID_HANDLE_VALUE,"The selected activation cannot be locked.");
-        {const auto active=runtime_config::read(folder/L"active-mod.json");std::lock_guard lock(runtime_status::mutex);runtime_status::value["activationId"]=active.at("activationId");}
+        {const auto active=runtime_config::read(selection);std::lock_guard lock(runtime_status::mutex);runtime_status::value["activationId"]=active.at("activationId");}
         runtime_status::set("verifying","Checking the selected manifest and installed package files.");
         const auto config=runtime_config::load(gameRoot);ZoneName=config.name;
         require(lang==config.forceLanguage,"The game runs in '"+lang+"' but the selected package targets '"+config.forceLanguage+"' (steam_settings/force_language.txt).");

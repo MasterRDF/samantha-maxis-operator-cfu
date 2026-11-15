@@ -26,7 +26,11 @@ inline std::filesystem::path child(const std::filesystem::path& root,const std::
     return full;
 }
 inline Config load(const std::filesystem::path& game){
+#ifdef BO7_DROPIN
+    const auto folder=maxis_dropin::folder(game)/L"native";auto active=read(folder/L"dropin.json");
+#else
     const auto folder=game/L"kronos"/L"runtime";auto active=read(folder/L"active-mod.json");
+#endif
     if(active.at("schemaVersion").get<int>()!=1)throw std::runtime_error("Unsupported activation version.");
     Config result;result.activation=active.at("activationId").get<std::string>();result.manifestSha=active.at("manifestSha256").get<std::string>();
     if(!std::regex_match(result.activation,std::regex("[a-f0-9]{32}"))||!std::regex_match(result.manifestSha,std::regex("[a-f0-9]{64}")))throw std::runtime_error("Invalid activation identity.");

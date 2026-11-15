@@ -1,0 +1,7 @@
+{
+  "name": "Samantha Maxis Operator (CFU)",
+  "author": "MasterRDF",
+  "version": "0.1",
+  "type": "script",
+  "description": "Default Samantha Maxis appearance on Karma > Tacit. Native body, head and first-person arms; compatible with stable CFU/Ztron. Fully restart BO7 after changing this Library switch."
+}
