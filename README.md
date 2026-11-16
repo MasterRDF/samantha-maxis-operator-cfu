@@ -28,8 +28,9 @@ The runtime uses its own configuration inside the Maxis mod folder. It does not 
 ## Compatibility and scope
 
 - Windows x64; English BO7 cod25 CL29269900 and stable Kronos v1.41. Exact original build hashes are enforced. Kronos dev47 and other game/client builds are unsupported.
-- CFU and Ztron are separate mods, not bundled. The verified target is CFU `1.5.4-stable-renames-trial-02` and Ztron Guns `88c`.
+- CFU and Ztron are separate mods, not bundled. Verified CFU operator companions include the public CFU `1.6.2` build and the original local `1.5.4-stable-renames-trial-02` build; Ztron Guns `88c` was also tested.
 - The automatic-start edition passed user preview/local Zombies testing with CFU, Ztron, Carry-forward and BO6 Operators enabled, without the old installer runtime or manual attachment.
+- English installations do not need `steam_settings/force_language.txt`. Missing/blank overrides use the package profile after matching English assets are verified; explicit conflicting overrides are refused.
 - Keep Karma/Tacit selected. A BO6/MW operator override selects a different model.
 - Karma's menu identity, portrait and voice remain. Facial-expression retargeting, multiplayer, dedicated servers and other languages are outside the validated scope.
 - Skin shading uses native BO7 materials and approximate auxiliary-map adaptation; it does not reproduce every original Warzone shader or lighting condition.

@@ -7,3 +7,5 @@ Run `Package-DropIn.ps1 -FastfileFolder <verified-fastfile-folder>` to assemble 
 The native runtime uses private `dropin.json` and `mod.manifest.json` files under `kronos/mods/samantha_maxis_operator_cfu/native`. Startup checks the Library switch and the runtime DLL hash before loading. The main fastfiles remain beside the game executable because the existing native loading path resolves them there.
 
 Tests include standalone fake-game loader/forwarding cases (`tests/build-dropin-tests.ps1`), private configuration selection and Library switches, the pinned CFU callback fixture, and the inherited 117 passive-sharing checks. The fake-game fixtures do not launch or attach to BO7.
+
+Language tests cover absent/blank overrides, explicit conflicts and BOM/encoding normalization. `tests/build-cfu-tests.ps1` additionally accepts the original Kronos DLL, CFU operator manifest and released operator DLL paths to verify the public build gate, guard template and callback forwarding against private fixtures.

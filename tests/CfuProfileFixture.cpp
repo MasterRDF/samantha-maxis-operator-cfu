@@ -5,6 +5,7 @@
 #define NOMINMAX
 #endif
 #include <windows.h>
+#include <bcrypt.h>
 #include "cfu-error-profile.hpp"
 #include "fatal-trace.hpp"
 #include "ops_patch.h"
@@ -18,6 +19,15 @@
 static unsigned checks=0;
 static void check(bool ok,const char* label){if(!ok)throw std::runtime_error(label);++checks;}
 static std::vector<uint8_t> readFile(const wchar_t* path){std::ifstream f(path,std::ios::binary);return {std::istreambuf_iterator<char>(f),std::istreambuf_iterator<char>()};}
+static std::string sha256(const std::vector<uint8_t>& bytes){
+    BCRYPT_ALG_HANDLE algorithm=nullptr;BCRYPT_HASH_HANDLE handle=nullptr;unsigned char digest[32]{};
+    check(BCryptOpenAlgorithmProvider(&algorithm,BCRYPT_SHA256_ALGORITHM,nullptr,0)>=0,"SHA256 available");
+    check(BCryptCreateHash(algorithm,&handle,nullptr,0,nullptr,0,0)>=0,"SHA256 initialization");
+    check(BCryptHashData(handle,const_cast<unsigned char*>(bytes.data()),static_cast<ULONG>(bytes.size()),0)>=0,"SHA256 data");
+    check(BCryptFinishHash(handle,digest,sizeof digest,0)>=0,"SHA256 finish");
+    BCryptDestroyHash(handle);BCryptCloseAlgorithmProvider(algorithm,0);
+    std::string text;const char* digits="0123456789abcdef";for(auto b:digest){text+=digits[b>>4];text+=digits[b&15];}return text;
+}
 static unsigned forwarded=0;
 static uintptr_t __fastcall originalError(int code,int level,const char* message,void* extra){
     check(code==123&&level==7&&message==nullptr&&extra==reinterpret_cast<void*>(0x1234),"all callback arguments preserved");
@@ -25,7 +35,14 @@ static uintptr_t __fastcall originalError(int code,int level,const char* message
 }
 int wmain(int argc,wchar_t** argv){
  try{
-    check(argc==3,"fixture input paths");const auto file=readFile(argv[1]),manifest=readFile(argv[2]);
+    check(argc==4,"fixture input paths including released CFU DLL");const auto file=readFile(argv[1]),manifest=readFile(argv[2]),released=readFile(argv[3]);
+    const auto releasedSha=sha256(released);
+    check(releasedSha==cfu_error_profile::ReleasedCompanionSha,"actual public CFU release file matches verified build");
+    check(releasedSha!=cfu_error_profile::LocalCompanionSha,"old local-only build restriction reproduced");
+    check(cfu_error_profile::knownCompanion(releasedSha),"released CFU file accepted by build gate");
+    check(cfu_error_profile::knownCompanion(cfu_error_profile::LocalCompanionSha),"local CFU build remains supported");
+    check(!cfu_error_profile::knownCompanion(std::string(64,'0')),"unknown CFU build still refused");
+    check(std::search(released.begin(),released.end(),cfu_error_profile::Guard.begin(),cfu_error_profile::Guard.end())!=released.end(),"exact guard template present in public CFU binary");
     check(file.size()>4096&&manifest.size()==16+789*8,"fixture inputs");
     const auto* dos=reinterpret_cast<const IMAGE_DOS_HEADER*>(file.data());
     const auto* nt=reinterpret_cast<const IMAGE_NT_HEADERS64*>(file.data()+dos->e_lfanew);

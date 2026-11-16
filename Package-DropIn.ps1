@@ -1,7 +1,7 @@
-param([Parameter(Mandatory=$true)][string]$FastfileFolder,[string]$NativeBuildFolder=(Join-Path $PSScriptRoot 'build/dropin'))
+param([Parameter(Mandatory=$true)][string]$FastfileFolder,[string]$NativeBuildFolder=(Join-Path $PSScriptRoot 'build/dropin'),[string]$OutputRoot=(Join-Path $PSScriptRoot 'dist'))
 $ErrorActionPreference='Stop'
 Set-StrictMode -Version Latest
-$destination=Join-Path $PSScriptRoot 'dist/Samantha-Maxis-Operator-CFU-v0.1-Drag-and-Drop'
+$destination=Join-Path $OutputRoot 'Samantha-Maxis-Operator-CFU-v0.1-Drag-and-Drop'
 if(Test-Path -LiteralPath $destination){throw 'Output already exists; retain the previous build and use a fresh output checkout'}
 $manifestPath=Join-Path $PSScriptRoot 'package/dropin/mod.manifest.json'
 $manifest=Get-Content $manifestPath -Raw|ConvertFrom-Json

@@ -3,6 +3,7 @@
 #include "trusted-fastfiles.hpp"
 #include "dropin-config.hpp"
 #include "runtime-config.hpp"
+#include "language-selection.hpp"
 
 int wmain(int argc,wchar_t** argv){
     try{
@@ -24,6 +25,8 @@ int wmain(int argc,wchar_t** argv){
         // successful load proves selection comes from this mod's own folder.
         const auto config=runtime_config::load(game);
         check(config.name==maxis_dropin::Name&&config.language=="english");
+        const auto language=language_selection::resolve(game,config.forceLanguage);
+        check(language.language=="english"&&language.source=="package-default-no-override");
         check(config.manifest==maxis_dropin::folder(game)/L"native"/L"mod.manifest.json");
         check(trusted_fastfiles::entries.size()==5);
         const auto own=maxis_dropin::folder(game)/L"native"/L"dropin.json";

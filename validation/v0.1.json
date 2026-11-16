@@ -7,7 +7,7 @@
   "dotnetRequired": false,
   "installerRequired": false,
   "sharedActivationRequired": false,
-  "privateConfigAndLibraryChecks": 15,
+  "privateConfigAndLibraryChecks": 16,
   "standaloneStartupForwardingCases": 10,
   "libraryOffVerifiedOffline": true,
   "enabledDuringSuccessfulGameplay": [
@@ -18,8 +18,8 @@
     "BO6 Operators"
   ],
   "manifestSha256": "efd2b4db1f5c3b142b0d9598e8ab733a8083e7d3552152aa8a15b0cb18a10bec",
-  "runtimeSha256": "859208c030ecb2fa6c2fec23dd217386bfd9df16223b2f1513664c0bc7bc54fa",
-  "loaderSha256": "fe157d41c983e55a4574943877a3aa98fe5341ca91723fcb57213c40bc4ef37f",
+  "runtimeSha256": "6343b1a973c2fe66364092a1b1f8b5034660b7e23b095d6b33b6c14e42a95023",
+  "loaderSha256": "c7509d2f4edf9d30bc5d6832467af529951cb298cad9868631e1b8c279d3940a",
   "nativeSharedRequestLoaded": true,
   "allFiveFastfilesExactAcceptedV01": true,
   "firstLaunchBasePackFailureBeforeMaxisPublication": true,
@@ -30,5 +30,13 @@
   "testedManifestSha256": "8dca7fadaf40edbf73653b00736f470eaad8bdd168da333d2354eea698c1c872",
   "testedLoaderSha256": "d4ebf9a195049f69faeb3f87c180b1484618571436f1e5d6f144e9aa18f641a5",
   "runtimeExactGameplayAccepted": true,
-  "loaderChangeAfterGameplay": "Version log text normalized to v0.1; runtime and native publication implementation unchanged."
+  "languageSelectionChecks": 16,
+  "cfuCallbackChecks": 282,
+  "passiveSharingChecks": 117,
+  "totalOfflineChecks": 441,
+  "externalAffectedUserAccepted": true,
+  "missingLanguageOverrideFixed": true,
+  "publicCfu162CompanionSupported": true,
+  "explicitLanguageMismatchStillRefused": true,
+  "allFastfilesUnchanged": true
 }

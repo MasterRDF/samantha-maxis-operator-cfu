@@ -12,6 +12,7 @@
 #include "trusted-fastfiles.hpp"
 #include "dropin-config.hpp"
 #include "runtime-config.hpp"
+#include "language-selection.hpp"
 #include "minhook/include/MinHook.h"
 #ifdef BO7_CHARACTER_DIAGNOSTIC
 #include "character-observation.hpp"
@@ -25,14 +26,18 @@ static fs::path gameRoot;
 static fs::path clientFile;
 static bool attached=false;
 static std::atomic<bool> started{false};
-static bool pinnedCfuCompanion(){
+struct CfuCompanion { bool loaded=false,pathMatches=false,recognized=false;std::string hash; };
+static CfuCompanion inspectCfuCompanion(){
+    CfuCompanion result;
     const auto expected=gameRoot/L"kronos"/L"mods"/L"carry_forward_unleashed"/L"mwcf_operators.dll";
     const auto module=GetModuleHandleW(L"mwcf_operators.dll");
-    if(!module)return false;
+    if(!module)return result;
+    result.loaded=true;
     std::array<wchar_t,32768> path{};
     const auto count=GetModuleFileNameW(module,path.data(),static_cast<DWORD>(path.size()));
-    return count&&count<path.size()&&_wcsicmp(path.data(),expected.c_str())==0&&
-        sha256(expected)=="3d692ab79d38bd3b69979bdc2a0a2a0d6c5bf51ecc4353ad5f93f179999f8957";
+    result.pathMatches=count&&count<path.size()&&_wcsicmp(path.data(),expected.c_str())==0;
+    if(result.pathMatches){result.hash=sha256(expected);result.recognized=cfu_error_profile::knownCompanion(result.hash);}
+    return result;
 }
 static std::mutex logMutex;
 static std::ofstream logFile;
@@ -47,11 +52,22 @@ static void installObservers(const Memory& memory,Address base,Address clientBas
     const auto note=[](const std::string& text){logLine(text);};
         const auto reader=[](Address address,void* output,size_t count){SIZE_T got=0;return ReadProcessMemory(GetCurrentProcess(),reinterpret_cast<void*>(address),output,count,&got)&&got==count;};
         const bool stockCallback=client_error_profile::matches(reader,clientBase);
-        const bool cfuCallback=!stockCallback&&pinnedCfuCompanion()&&cfu_error_profile::matches(reader,clientBase);
+        const auto companion=inspectCfuCompanion();
+        const bool cfuCallback=!stockCallback&&companion.recognized&&cfu_error_profile::matches(reader,clientBase);
+        {std::lock_guard lock(runtime_status::mutex);
+            runtime_status::value["stockCallbackMatches"]=stockCallback;
+            runtime_status::value["cfuCompanionLoaded"]=companion.loaded;
+            runtime_status::value["cfuCompanionPathMatches"]=companion.pathMatches;
+            runtime_status::value["cfuCompanionSha256"]=companion.hash;
+            runtime_status::value["cfuCompanionRecognized"]=companion.recognized;
+            runtime_status::value["cfuCallbackMatches"]=cfuCallback;
+        }
         if(!stockCallback&&!cfuCallback){
             note("Callback module file: "+clientFile.string());
             note(client_error_profile::describeMismatch(reader,clientBase));
-            fail("Kronos v1.41 callback profile does not match.");
+            if(companion.loaded&&!companion.pathMatches)fail("CFU operator companion is loaded from an unsupported location; see cfuCompanionPathMatches.");
+            if(companion.pathMatches&&!companion.recognized)fail("Unsupported CFU operator companion build; see cfuCompanionSha256.");
+            fail("Kronos v1.41 callback bytes do not match the stock or verified CFU guard profile.");
         }
         note(cfuCallback?"Callback profile: CFU stable v1.41 guard verified; guard preserved.":"Callback profile: stock Kronos v1.41.");
         fatal_trace::errorNotification=&runtime_status::onError;
@@ -167,9 +183,6 @@ static DWORD WINAPI worker(void*){
         require(sha256(gameRoot/L"cod25-cod.exe")==GameSha,"Unsupported game executable.");
         require(sha256(clientFile)==ClientSha,"Unsupported original Kronos client.");
         require(sha256(gameRoot/L"global_stream_mp.ff")==GlobalSha,"The original global fastfile is required.");
-        std::ifstream language(gameRoot/L"steam_settings"/L"force_language.txt");std::string lang;std::getline(language,lang);lang.erase(std::remove(lang.begin(),lang.end(),'\r'),lang.end());
-        while(!lang.empty()&&(lang.back()==' '||lang.back()=='\t'))lang.pop_back();
-        require(runtime_config::findLanguage(lang)!=nullptr,"Unsupported game language in steam_settings/force_language.txt: "+lang);
 #ifdef BO7_DROPIN
         const auto selection=folder/L"dropin.json";
 #else
@@ -181,10 +194,12 @@ static DWORD WINAPI worker(void*){
         {const auto active=runtime_config::read(selection);std::lock_guard lock(runtime_status::mutex);runtime_status::value["activationId"]=active.at("activationId");}
         runtime_status::set("verifying","Checking the selected manifest and installed package files.");
         const auto config=runtime_config::load(gameRoot);ZoneName=config.name;
-        require(lang==config.forceLanguage,"The game runs in '"+lang+"' but the selected package targets '"+config.forceLanguage+"' (steam_settings/force_language.txt).");
+        const auto selectedLanguage=language_selection::resolve(gameRoot,config.forceLanguage);
+        require(runtime_config::findLanguage(selectedLanguage.language)!=nullptr,"Unsupported package game language: "+selectedLanguage.language);
+        note("Language selection: "+selectedLanguage.language+"; source="+selectedLanguage.source+". Verifying the matching localized game assets.");
         require(sha256(gameRoot/fs::path(config.prefix+"global_stream_mp.ff"))==config.localizedGlobalSha,"The "+config.prefix+"global_stream_mp.ff fastfile differs from the one measured when the package was prepared.");
         note("Game language: "+config.language+" ("+config.prefix+" companion).");
-        {std::lock_guard lock(runtime_status::mutex);runtime_status::value["activationId"]=config.activation;runtime_status::value["name"]=config.name;runtime_status::value["manifestSha256"]=config.manifestSha;runtime_status::value["language"]=config.language;}
+        {std::lock_guard lock(runtime_status::mutex);runtime_status::value["activationId"]=config.activation;runtime_status::value["name"]=config.name;runtime_status::value["manifestSha256"]=config.manifestSha;runtime_status::value["language"]=config.language;runtime_status::value["languageSource"]=selectedLanguage.source;}
         runtime_status::set("waiting-zombies","Manifest and installed files verified; waiting for ingame_zm state 2.");
         const Address base=reinterpret_cast<Address>(GetModuleHandleW(nullptr)),clientBase=reinterpret_cast<Address>(client);
         Memory memory{GetCurrentProcess()};Layout layout{base+RequestsRva,base+DescriptorRva,base+NameCellRva};

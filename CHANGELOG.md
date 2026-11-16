@@ -9,3 +9,7 @@
 - Private configuration and a Kronos Library on/off switch, applied after a full restart.
 - User gameplay accepted with CFU, Ztron, Carry-forward and BO6 Operators enabled.
 - Drag-and-drop packaging completely replaces the initial installer distribution of this same version.
+
+- Fixed English startup when the optional force_language.txt override is missing or blank.
+- Added the verified public CFU 1.6.2 operator companion without weakening callback validation.
+- Confirmed the combined fix on the affected external installation; retained version v0.1.

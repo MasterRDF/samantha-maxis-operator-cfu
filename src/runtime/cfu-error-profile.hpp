@@ -3,11 +3,17 @@
 #include <algorithm>
 #include <cstring>
 #include <limits>
+#include <string_view>
 
 // Read-only profile for CFU's stable v1.41 targeted stale-string guard.
 // No jump is accepted by shape alone: every guard byte and every relocated
 // destination must match the pinned CFU operator companion's implementation.
 namespace cfu_error_profile {
+inline constexpr std::string_view LocalCompanionSha="3d692ab79d38bd3b69979bdc2a0a2a0d6c5bf51ecc4353ad5f93f179999f8957";
+// Verified against the public CFU v1.6.2 release and the earlier local v1.6
+// compatibility witness. Both builds still require the exact live guard below.
+inline constexpr std::string_view ReleasedCompanionSha="3d0dffabce075a961c090bcb5488ed97f0af8782a7d7e4cc9830fc12564c8744";
+inline bool knownCompanion(std::string_view hash){return hash==LocalCompanionSha||hash==ReleasedCompanionSha;}
 inline constexpr std::array<unsigned char, 247> Guard{
     0x81,0xfe,0x07,0xe1,0x43,0xde,0x0f,0x85,0x78,0x00,0x00,0x00,0x31,0xc9,0xff,0x15,
     0x7c,0x60,0x7a,0xff,0x48,0x8d,0x88,0x2f,0x89,0x02,0x0a,0x48,0x39,0x4c,0x24,0x48,

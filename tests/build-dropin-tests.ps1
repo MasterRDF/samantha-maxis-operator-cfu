@@ -14,6 +14,10 @@ if($LASTEXITCODE-ne 0){throw 'MSVC environment failed'}
 if($LASTEXITCODE-ne 0){throw 'Contract fixture compile failed'}
 & (Join-Path $build 'contract-test.exe') $ContractGame
 if($LASTEXITCODE-ne 0){throw 'Contract fixture failed'}
+& cl.exe /nologo /std:c++20 /W4 /WX /EHsc /MT /O2 "/I$source" "/Fe:$build/language-test.exe" "/Fo:$build/language-test.obj" (Join-Path $PSScriptRoot 'language-selection-test.cpp')
+if($LASTEXITCODE-ne 0){throw 'Language fixture compile failed'}
+& (Join-Path $build 'language-test.exe') ($Scratch+'-language')
+if($LASTEXITCODE-ne 0){throw 'Language fixture failed'}
 & cl.exe /nologo /std:c++20 /W4 /WX /EHsc /MT /O2 /LD "/Fe:$build/XINPUT9_1_0.dll" "/Fo:$build/kronos.obj" (Join-Path $PSScriptRoot 'dropin-test-kronos.cpp')
 if($LASTEXITCODE-ne 0){throw 'Kronos stand-in compile failed'}
 & cl.exe /nologo /std:c++20 /W4 /WX /EHsc /MT /O2 /LD "/Fe:$build/maxis-runtime.dll" "/Fo:$build/runtime.obj" (Join-Path $PSScriptRoot 'dropin-test-runtime.cpp')
