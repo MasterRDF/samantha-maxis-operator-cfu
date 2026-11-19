@@ -6,12 +6,12 @@
   "language": "english",
   "gameSha256": "b0b12b0e7ec25ce855ea6e9d042fc8f390b8d48097cb10e0899e8334f35b6db8",
   "kronosSha256": "88a52103c5555b2760f1e7ad13a594e8ef0440f007b45a10bddc61dda234fcfb",
-  "assetCount": 403,
+  "assetCount": 649,
   "memoryCapacities": [
     0,
-    5592512,
-    1504,
-    73360,
+    5594944,
+    3008,
+    120608,
     0,
     0,
     0,
@@ -19,18 +19,18 @@
     0,
     0,
     0,
-    32,
+    64,
     0,
     0,
     0,
-    5236320
+    9356416
   ],
   "files": [
     {
       "name": "samantha_maxis_operator_cfu.ff",
-      "sha256": "c8284f0f8522e4ba18bc44847edc66873a7cca0648e204ee892c1334822ad378",
-      "bytes": 102978676,
-      "streamHeaderSha256": "6189cc71f3c24076c30b1bb6a80d1e037e0f40dac3c4686218599dd43b9497a7",
+      "sha256": "b203edae2e6b696c472385b7ff62e43859555aadf8efc4a697dd6a5b8a310fb0",
+      "bytes": 154209544,
+      "streamHeaderSha256": "7b3dc3f1d3052ebcd7451a4da6e232f7bddaa4d8e394b17107bf8611c9df7cd3",
       "server": false
     },
     {
@@ -63,10 +63,10 @@
     }
   ],
   "scripts": [],
-  "displayName": "Samantha Maxis Operator (CFU) v0.1",
-  "version": "0.1",
+  "displayName": "Samantha Maxis Operator (CFU) v0.2",
+  "version": "0.2",
   "release": {
-    "replacement": "Karma -> Tacit",
+    "replacement": "Karma -> Tacit (default Maxis) + Karma -> Tech Guardian (Samantha PJs)",
     "appearance": "Samantha Maxis default outfit",
     "includes": [
       "third-person body",
@@ -82,7 +82,12 @@
     "passiveCarryForwardSharing": true,
     "bo6OperatorsEnabledValidated": true,
     "automaticStartup": true,
-    "kronosLibraryToggle": true
+    "kronosLibraryToggle": true,
+    "secondSkin": {
+      "skin": "sat_usa_pl_white_proto_skin",
+      "appearance": "Samantha's PJs (Blender model)",
+      "visualGameplayValidated": false
+    }
   },
   "carryForwardPreload": true,
   "distribution": "drag-and-drop"

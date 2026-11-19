@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.2 - 2026-11-19
+
+- Added a new, original skin for Maxis under the "Tech Guardian" skin for Karma. It's a skin that combines the body of the Grey in Sam's PJ's skin and Sam's head model from bo6. It also uses the hair mesh from Sam's Cold War model.
+- Replaced all (there might be a few outliars) of karma's voice lines with Sam's Cold War lines and silenced any karma voice lines that Sam doesn't have proper replacement lines for (i.e. unique BO7 equipment and scorestreaks).
+- Replaced Karma's operator portrait with a portrait of Sam.
+- Packaging: the ZIP's top level is now the contents of `cod25`, ready to drag in. Built by `Package-Release.py`.
+
 ## v0.1 - 2026-11-15
 
 - Default Samantha Maxis body, both head variants and first-person arms on Karma/Tacit.
