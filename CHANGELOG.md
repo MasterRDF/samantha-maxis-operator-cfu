@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.2.1 - 2026-11-19
+
+- fixed an issue where Karma's original models were appearing instead of Sam's
+
 ## v0.2 - 2026-11-19
 
 - Added a new, original skin for Maxis under the "Tech Guardian" skin for Karma. It's a skin that combines the body of the Grey in Sam's PJ's skin and Sam's head model from bo6. It also uses the hair mesh from Sam's Cold War model.

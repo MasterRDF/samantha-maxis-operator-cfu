@@ -1,4 +1,4 @@
-"""Build the v0.2 release ZIP. The ZIP's top level IS the contents of cod25 (tbs.dll, the five fastfiles, kronos/),
+"""Build the release ZIP. The ZIP's top level IS the contents of cod25 (tbs.dll, the five fastfiles, kronos/),
 so players open it and drag everything straight into their cod25 folder.
 
 Inputs (local build outputs, not tracked in git):
@@ -14,7 +14,7 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 NAME = 'samantha_maxis_operator_cfu'
-VERSION = '0.2'
+VERSION = '0.2.1'
 sha = lambda b: hashlib.sha256(b).hexdigest()
 
 
@@ -51,6 +51,10 @@ def main():
         assert len(b) == f['bytes'] and sha(b) == f['sha256'], 'fastfile mismatch: ' + f['name']
 
     mod = f'kronos/mods/{NAME}'
+    # the loader pins the runtime by SHA256; refuse a base whose pair predates the CFU-compatible runtime (v0.2 shipped one)
+    runtime = (base / f'{mod}/native/maxis-runtime.dll').read_bytes()
+    assert sha(runtime).encode() in (base / 'tbs.dll').read_bytes(), 'tbs.dll does not pin this maxis-runtime.dll'
+    assert b'cfuCompanionRecognized' in runtime, 'maxis-runtime.dll predates the CFU guard profile fix'
     entries = {'tbs.dll': base / 'tbs.dll'}
     entries.update({n: p for n, p in ff_src.items()})
     entries[f'{mod}/mod.json'] = dropin_dir / 'mod.json'

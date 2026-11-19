@@ -1,4 +1,4 @@
-# Samantha Maxis Operator (CFU) v0.2
+# Samantha Maxis Operator (CFU) v0.2.1
 
 Samantha Maxis for local BO7 Zombies on stable Kronos v1.41, on the Karma operator:
 
@@ -9,7 +9,7 @@ Samantha Maxis for local BO7 Zombies on stable Kronos v1.41, on the Karma operat
 
 ## Installation
 
-1. Download `Samantha-Maxis-Operator-CFU-v0.2.zip` from the [v0.2 release](https://github.com/MasterRDF/samantha-maxis-operator-cfu/releases/tag/v0.2).
+1. Download `Samantha-Maxis-Operator-CFU-v0.2.1.zip` from the [v0.2.1 release](https://github.com/MasterRDF/samantha-maxis-operator-cfu/releases/tag/v0.2.1).
 2. Close BO7 and every Kronos window.
 3. Open the ZIP and drag everything in it into your `cod25` folder, beside `cod25-cod.exe`. Merge the `kronos` folder and replace files when asked (this also upgrades v0.1).
 4. In Kronos's Library, enable **Samantha Maxis Operator (CFU)**. Launch BO7 normally and select **Karma -> Tacit** or **Karma -> Tech Guardian** in Zombies.

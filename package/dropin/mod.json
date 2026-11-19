@@ -1,7 +1,7 @@
 {
   "name": "Samantha Maxis Operator (CFU)",
   "author": "MasterRDF",
-  "version": "0.2",
+  "version": "0.2.1",
   "type": "script",
   "description": "Samantha Maxis on Karma: default outfit on Tacit, Samantha's PJs on Tech Guardian, Cold War voice lines and a Maxis HUD portrait. Compatible with stable CFU/Ztron. Fully restart BO7 after changing this Library switch."
 }

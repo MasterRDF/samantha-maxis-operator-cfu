@@ -63,8 +63,8 @@
     }
   ],
   "scripts": [],
-  "displayName": "Samantha Maxis Operator (CFU) v0.2",
-  "version": "0.2",
+  "displayName": "Samantha Maxis Operator (CFU) v0.2.1",
+  "version": "0.2.1",
   "release": {
     "replacement": "Karma -> Tacit (default Maxis) + Karma -> Tech Guardian (Samantha PJs)",
     "appearance": "Samantha Maxis default outfit",
