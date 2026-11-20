@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "activationId": "29fa7f6574f0293ee44e8e89a7e0bc7f",
+  "activationId": "c88ce86ef67463ea28213a597eb7055f",
   "manifest": "mod.manifest.json",
-  "manifestSha256": "29fa7f6574f0293ee44e8e89a7e0bc7f7f1e3a09ce9cdd9b6cce35f07498376a",
+  "manifestSha256": "c88ce86ef67463ea28213a597eb7055ff87cb1b99a2414d39fd393f5cdf0c171",
   "language": "english",
   "localizedGlobalSha256": "ac3b5cabdbea9bb46e0a355c69eb43141edb8f3aaabe98ce9dea330d8e45c755"
 }

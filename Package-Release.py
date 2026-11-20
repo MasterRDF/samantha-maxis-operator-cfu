@@ -3,7 +3,7 @@ so players open it and drag everything straight into their cod25 folder.
 
 Inputs (local build outputs, not tracked in git):
   --base     a previous release's cod25 folder (tbs.dll, maxis-runtime.dll and the jp_/eng_/ww_/srv_ fastfiles)
-  --pjs      folder with the v0.2 samantha_maxis_operator_cfu.ff and its test mod.manifest.json (Tacit + Tech Guardian)
+  --pjs      folder with the tested samantha_maxis_operator_cfu.ff and its test mod.manifest.json (Tacit, Tech Guardian, six Cold War skins)
   --voice    folder of Kronos voice overrides (hash_<sample>.ogg)
 Tracked inputs: package/dropin/{mod.json, lua/, images/}, licenses/, THIRD-PARTY-NOTICES.md.
 Writes package/dropin/{mod.manifest.json, dropin.json} (release metadata only differs from the tested manifest) and
@@ -14,17 +14,17 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 NAME = 'samantha_maxis_operator_cfu'
-VERSION = '0.2.1'
+VERSION = '0.2.2'
 sha = lambda b: hashlib.sha256(b).hexdigest()
 
 
 def release_manifest(tested: bytes) -> bytes:
     """Version strings only; every file hash, size and memory figure stays exactly as tested."""
     text = tested.decode('utf-8')
-    swaps = [('"Samantha Maxis Operator (CFU) v0.2 test (PJs)"', f'"Samantha Maxis Operator (CFU) v{VERSION}"'),
-             ('"0.2-pjs-test"', f'"{VERSION}"'),
-             ('"Karma -> Tacit (default Maxis) + Karma -> Tech Guardian/proto (Samantha PJs)"',
-              '"Karma -> Tacit (default Maxis) + Karma -> Tech Guardian (Samantha PJs)"')]
+    swaps = [('"Samantha Maxis Operator (CFU) v0.3 test (Cold War skins)"', f'"Samantha Maxis Operator (CFU) v{VERSION}"'),
+             ('"0.3-cw-test"', f'"{VERSION}"'),
+             ('"Karma -> Tacit (default Maxis) + Tech Guardian (PJs) + Karma skin slots 8-13 (six Cold War Maxis outfits)"',
+              '"Karma -> Tacit (default Maxis) + Tech Guardian (PJs) + Metal Braggart, Defiant Thug, Ataraxia, The Empress, Dark Shroud, Sicarius (six Cold War Maxis outfits)"')]
     for old, new in swaps:
         assert text.count(old) == 1, old
         text = text.replace(old, new)

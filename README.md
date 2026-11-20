@@ -1,18 +1,19 @@
-# Samantha Maxis Operator (CFU) v0.2.1
+# Samantha Maxis Operator (CFU) v0.2.2
 
 Samantha Maxis for local BO7 Zombies on stable Kronos v1.41, on the Karma operator:
 
 - **Karma -> Tacit**: Maxis's default Warzone 1 outfit (body, head and first-person arms) with adapted BO7 skin shading and corrected eye whites.
 - **Karma -> Tech Guardian**: an original Maxis skin combining the body from Samantha's PJs, Samantha's BO6 head and the hair from her Cold War model.
+- **Karma -> Metal Braggart, Defiant Thug, Ataraxia, The Empress, Dark Shroud, Sicarius**: Sam's Cold War outfits Bride, Goggles, Scythe, Lumens, Berlin and Phantom (basic implementation: colours/shaders still need work, no special effects yet).
 - Karma's voice lines play Samantha's Cold War lines; lines with no fitting Maxis equivalent (BO7-only equipment and scorestreaks) are silent.
 - Karma's HUD operator portrait shows Samantha.
 
 ## Installation
 
-1. Download `Samantha-Maxis-Operator-CFU-v0.2.1.zip` from the [v0.2.1 release](https://github.com/MasterRDF/samantha-maxis-operator-cfu/releases/tag/v0.2.1).
+1. Download `Samantha-Maxis-Operator-CFU-v0.2.2.zip` from the [v0.2.2 release](https://github.com/MasterRDF/samantha-maxis-operator-cfu/releases/tag/v0.2.2).
 2. Close BO7 and every Kronos window.
 3. Open the ZIP and drag everything in it into your `cod25` folder, beside `cod25-cod.exe`. Merge the `kronos` folder and replace files when asked (this also upgrades v0.1).
-4. In Kronos's Library, enable **Samantha Maxis Operator (CFU)**. Launch BO7 normally and select **Karma -> Tacit** or **Karma -> Tech Guardian** in Zombies.
+4. In Kronos's Library, enable **Samantha Maxis Operator (CFU)**. Launch BO7 normally and select **Karma -> Tacit**, **Tech Guardian** or one of the six Cold War skins listed above in Zombies.
 
 No installer, command script, manual Attach step or .NET runtime is required. The included `tbs.dll` starts the dedicated Maxis runtime automatically. CFU's `hid.dll`, Ztron's `pdh.dll` and Kronos's `XINPUT9_1_0.dll` remain unchanged.
 
@@ -37,7 +38,7 @@ The runtime uses its own configuration inside the Maxis mod folder. It does not 
 - CFU and Ztron are separate mods, not bundled. Verified CFU operator companions include the public CFU `1.6.2` build and the original local `1.5.4-stable-renames-trial-02` build; Ztron Guns `88c` was also tested.
 - The automatic-start edition passed user preview/local Zombies testing with CFU, Ztron, Carry-forward and BO6 Operators enabled, without the old installer runtime or manual attachment.
 - English installations do not need `steam_settings/force_language.txt`. Missing/blank overrides use the package profile after matching English assets are verified; explicit conflicting overrides are refused.
-- Keep Karma/Tacit or Karma/Tech Guardian selected. A BO6/MW operator override selects a different model.
+- Keep one of the Maxis skins (Tacit, Tech Guardian or the six Cold War skins) selected. A BO6/MW operator override selects a different model.
 - Karma's menu name remains. The HUD portrait swap applies to HUDs that look up the operator portrait through Kronos Lua (the BO3/IW Kronos HUD themes). A few rarely heard Karma voice lines may still slip through.
 - Facial-expression retargeting, multiplayer, dedicated servers and other languages are outside the validated scope.
 - Skin shading uses native BO7 materials and approximate auxiliary-map adaptation; it does not reproduce every original Warzone shader or lighting condition.

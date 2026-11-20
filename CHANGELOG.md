@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.2.2 - 2026-11-19
+
+- Added the models for the rest of Sam's Cold War skins (Very basic implementation, colors/shaders still need work and there are no special effects present atm)
+
 ## v0.2.1 - 2026-11-19
 
 - fixed an issue where Karma's original models were appearing instead of Sam's
